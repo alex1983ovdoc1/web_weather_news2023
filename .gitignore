@@ -4,3 +4,5 @@ temp/
 env/
 config.py
 requirementsOLD.txt
+*.db
+webapp.db

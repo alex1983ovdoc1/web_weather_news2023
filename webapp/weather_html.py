@@ -3,12 +3,12 @@ import requests
 
 
 def weather_by_city(city_name):
-	#http://api.worldweatheronline.com/premium/v1/weather.ashx?key=38d7d237f2eb4546975144035232704&q=Kyiv,Ukraine&format=json&num_of_days=1&lang=ru
-	#weather_url = 'http://api.worldweatheronline.com/premium/v1/weather.ashx?'
+	# http://api.worldweatheronline.com/premium/v1/weather.ashx?key=38d7d237f2eb4546975144035232704&q=Kyiv,Ukraine&format=json&num_of_days=1&lang=ru	
+	# weather_url = 'http://api.worldweatheronline.com/premium/v1/weather.?' - ERROR
+	# weather_url = 'http://api.worldweatheronline.com/premium/v1/weather.ashx?'
 	weather_url = current_app.config['WEATHER_URL']
-
 	params1 = {
-		#"key"	: '38d7d237f2eb4546975144035232704',
+		# "key"	: '38d7d237f2eb4546975144035232704',
 		"key"	: current_app.config['WEATHER_API_KEY'],
 		'q'		: city_name,
 		"format": "json",

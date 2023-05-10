@@ -6,3 +6,6 @@ config.py
 requirementsOLD.txt
 *.db
 webapp.db
+requirementsKURS.txt
+requirementsMYn.txt
+mf.py

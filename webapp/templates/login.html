@@ -27,7 +27,7 @@
     </h1>
     <!-- NEW string -->
     <div class='row'>
-        <div class='col-8'>
+        <div class='col-4'>
 
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -39,22 +39,24 @@
                 {% endif %}
             {% endwith %}
             
-            <h2>_News_</h2>
-            {%for news in news_list:%}
-            <h3><a href="{{ news.url }}">{{news.title}}</a></h3> 
-   
-            <p>{{ news.published.strftime('%d.%m.%Y') }}</p>
-            <hr/>
-            {%endfor%}
+            <form action='{{ url_for("process_login") }}' method="POST">  
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username() }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password() }}
+                </div>
+                {{ form.submit() }}
+
+            </form>
+
         </div>
-        <div class='col-4'>
-            <h2>_Forecast_</h2>
-            {% if weather %}
-                <!-- {{ weather }} -->
-                Temperature: {{ weather.temp_C }}, FeelsLike: {{ weather.FeelsLikeC }}
-            {% else %}
-                - Service error -
-            {% endif %}
+        <div class='col-8'>
+            
+
         </div>
     </div>
     </div>

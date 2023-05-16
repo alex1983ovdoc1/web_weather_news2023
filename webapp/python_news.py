@@ -3,7 +3,9 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
-from webapp.model import db, News
+from webapp.db import db
+from webapp.news.models import News
+
 
 def get_html(url):
 	try:
@@ -15,7 +17,6 @@ def get_html(url):
 	except(requests.RequestException, ValueError):
 		print('-- NETWORK ERROR --')
 		return False
-
 
 
 def get_python_news():

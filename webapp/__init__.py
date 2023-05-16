@@ -1,12 +1,12 @@
 
 from flask import Flask, render_template, flash, redirect, url_for
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-# from a2_weather import weather_by_city 
+from flask_login import LoginManager,current_user, login_required
 
-from webapp.forms import LoginForm
-from webapp.model import db, News, User
-from webapp.weather_html import weather_by_city 
-from webapp.python_news import get_python_news
+from webapp.db import db
+from webapp.admin.views import blueprint as admin_blueprint
+from webapp.news.views import blueprint as news_blueprint
+from webapp.user.models import User
+from webapp.user.views import blueprint as user_blueprint
 
 
 '''
@@ -24,62 +24,17 @@ def create_app():
 
     login_manager = LoginManager()          # create logMan's object
     login_manager.init_app(app)             # initialisation object
-    login_manager.login_view = 'login'      # name function for this object
+    # login_manager.login_view = 'user.login' # name function for this object
+    login_manager.login_view = 'user.login' # name function for this object
+    app.register_blueprint(admin_blueprint)
+    app.register_blueprint(news_blueprint)
+    app.register_blueprint(user_blueprint)   # inithialization user_blueprint
+
 
     # gived user from DB
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(user_id)
-
-    @app.route('/')                                                 # start flask's object -> app
-    def index():
-        title = "News Python"                                       # name title
-        #weather = weather_by_city('Kyiv,Ukraine')
-        weather = weather_by_city(app.config['WEATHER_DEFAULT_CITY'])           # go function weather
-        # news_list = get_python_news()
-        news_list = News.query.order_by(News.published.desc()).all()                                           # go function news
-        return render_template('index.html', page_title=title, weather = weather, news_list=news_list) # send to site
-
-
-    # user's form
-    @app.route('/login')
-    def login():
-        if current_user.is_authenticated:           # if user authenticated
-            return redirect(url_for('index'))       # go start page
-        title = 'Authorization'
-        login_form = LoginForm()
-        return render_template('login.html', page_title=title, form=login_form)
-
-
-    # processing login
-    @app.route('/process-login', methods=['POST'])
-    def process_login():
-        form = LoginForm()
-
-        if form.validate_on_submit():
-            user = User.query.filter(User.username == form.username.data).first()
-            if user and user.check_password(form.password.data):
-                login_user(user)
-                flash('/ You going in site! /')
-                return redirect(url_for('index'))
-        flash('/ Name or password not correct /')
-        return redirect(url_for('login'))
-
-    # user logout
-    @app.route('/logout')
-    def logout():
-        logout_user()
-        flash('/ You logout from site. /')
-        return redirect(url_for('index'))
-
-    # page for admin
-    @app.route('/admin')
-    @login_required
-    def admin_index():
-        if current_user.is_admin:
-            return "Hello admin!"
-        else:
-            return "You aren't admin."
+        return User.query.get(user_id) 
 
 
     return app

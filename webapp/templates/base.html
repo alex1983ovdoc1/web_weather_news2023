@@ -21,42 +21,13 @@
     <title>{{ page_title }}</title>
   </head>
   <body>
+    {%  include 'menu.html' %}
     <div class="container">
-    <h1>
-         {{ page_title }}
-    </h1>
-    <!-- NEW string -->
-    <div class='row'>
-        <div class='col-8'>
+    <h1> {{ page_title }} </h1>
+         {% block content %}{% endblock %}
 
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class='alert alert-warning' role='alert'>
-                    {% for message in messages %}
-                        {{ message }}<br>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            {% endwith %}
-            
-            <h2>_News_</h2>
-            {%for news in news_list:%}
-            <h3><a href="{{ news.url }}">{{news.title}}</a></h3> 
-   
-            <p>{{ news.published.strftime('%d.%m.%Y') }}</p>
-            <hr/>
-            {%endfor%}
-        </div>
-        <div class='col-4'>
-            <h2>_Forecast_</h2>
-            {% if weather %}
-                <!-- {{ weather }} -->
-                Temperature: {{ weather.temp_C }}, FeelsLike: {{ weather.FeelsLikeC }}
-            {% else %}
-                - Service error -
-            {% endif %}
-        </div>
-    </div>
+        
+    
     </div>
 
     <!--  -->

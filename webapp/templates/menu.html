@@ -12,9 +12,7 @@
           <a class="nav-link active" aria-current="page" href="/">My_page_Home</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{  url_for('user.login') }}">LOG_IN</a>
-        </li>        
+              
 
       </ul>
 
@@ -22,6 +20,33 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">MySearch</button>
       </form>
+
+      <ul class="navbar-nav">
+        {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <span class="nav-link">Hello, _{{ current_user.username }}_</span>
+          </li> 
+
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{  url_for('admin.admin_index') }}">Administration</a>
+            </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{  url_for('user.logout') }}">LOG_OUT</a>
+          </li> 
+
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{  url_for('user.register') }}">Registration</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{  url_for('user.login') }}">LOG_IN</a>
+          </li>
+        {% endif %}
+        
+      </ul>
 
     </div>
   </div>
